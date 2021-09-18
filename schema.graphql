@@ -1,0 +1,7 @@
+type Mouse @entity {
+    id: ID!
+    numericId: Int!
+    owner: Bytes!
+    name: String!
+    image: String!
+}

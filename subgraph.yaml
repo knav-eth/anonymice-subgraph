@@ -1,0 +1,26 @@
+specVersion: 0.0.2
+description: Anonymice
+repository: https://github.com/knav-eth/anonymice-subgraph
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: Anonymice
+    network: mainnet
+    source:
+      address: '0xbad6186E92002E312078b5a1dAfd5ddf63d3f731'
+      abi: Anonymice
+      startBlock: 13238868
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Mouse
+      abis:
+        - name: Anonymice
+          file: ./abis/Anonymice.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: ./src/mapping.ts
