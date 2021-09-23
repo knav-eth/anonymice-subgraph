@@ -4,4 +4,23 @@ type Mouse @entity {
     owner: Bytes!
     name: String!
     image: String!
+    currentOwner: Wallet!
+    minted: BigInt!
+}
+
+type Wallet @entity {
+    id: ID!
+    address: Bytes!
+    mice: [Mouse!]! @derivedFrom(field: "currentOwner")
+    heldCount: BigInt!
+    joined: BigInt!
+}
+
+type Transfer @entity {
+    id: ID!
+    mouse: Mouse!
+    from: Wallet!
+    to: Wallet!
+    txHash: Bytes!
+    timestamp: BigInt!
 }
