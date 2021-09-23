@@ -1,4 +1,4 @@
-import { BigInt } from "@graphprotocol/graph-ts"
+import { BigInt, ethereum } from "@graphprotocol/graph-ts"
 import { Anonymice, Transfer as TransferEvent } from "../generated/Anonymice/Anonymice"
 import { Mouse, Transfer, Wallet } from "../generated/schema"
 
@@ -41,11 +41,11 @@ export function handleTransfer(event: TransferEvent): void {
     let contract = Anonymice.bind(event.address)
 
     let tokenHash = contract._tokenIdToHash(tokenId)
-    let image = contract.hashToSVG(tokenHash)
+    let imageResult: ethereum.CallResult<string> = contract.try_hashToSVG(tokenHash)
 
     mouse.numericId = tokenId.toI32()
     mouse.name = "Anonymice #" + tokenId.toString()
-    mouse.image = image
+    mouse.image = imageResult.reverted ? "" : imageResult.value
     mouse.minted = event.block.timestamp
   }
   mouse.owner = event.params.to
